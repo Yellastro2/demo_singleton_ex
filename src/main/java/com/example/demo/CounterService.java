@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,5 +30,10 @@ public class CounterService {
         CounterSingleton fCounter = ctx.getBean(CounterSingleton.class);
         fCounter.set(value);
         return new ResponseEntity<String>("Value saved", HttpStatus.OK);
+    }
+    @Scheduled(fixedRate = 1000)
+    private void timer(){
+        CounterSingleton fCounter = ctx.getBean(CounterSingleton.class);
+        fCounter.set(fCounter.get()+1);
     }
 }
